@@ -38,79 +38,86 @@ class _AddTransactionState extends State<AddTransaction> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 3,
-      child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 10),
-        width: double.infinity,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            TextField(
-              controller: _titleController,
-              decoration: InputDecoration(labelText: 'name'),
-            ),
-            TextField(
-              keyboardType: TextInputType.number,
-              controller: _amountController,
-              decoration: InputDecoration(labelText: 'amount'),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              height: 70,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    _datePicked == null
-                        ? Text('No Date Choosen')
-                        : Text(
-                            'Picked Date:${DateFormat.yMd().format(_datePicked)}'),
-                    FlatButton(
-                      child: Text(
-                        'Choose Date',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      textColor: Theme.of(context).primaryColor,
-                      onPressed: () {
-                        _presentDatePicker();
-                      },
-                    )
-                  ],
+    return SingleChildScrollView(
+      child: Card(
+        elevation: 3,
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 10),
+          padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom + 10,
+              left: 10,
+              right: 10,
+              top: 10),
+          width: double.infinity,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              TextField(
+                controller: _titleController,
+                decoration: InputDecoration(labelText: 'name'),
+              ),
+              TextField(
+                keyboardType: TextInputType.number,
+                controller: _amountController,
+                decoration: InputDecoration(labelText: 'amount'),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                height: 70,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      _datePicked == null
+                          ? Text('No Date Choosen')
+                          : Text(
+                              'Picked Date:${DateFormat.yMd().format(_datePicked)}'),
+                      FlatButton(
+                        child: Text(
+                          'Choose Date',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        textColor: Theme.of(context).primaryColor,
+                        onPressed: () {
+                          _presentDatePicker();
+                        },
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-            RaisedButton(
-              color: Theme.of(context).primaryColor,
-              textColor: Theme.of(context).textTheme.button.color,
-              child: Text(
-                'Add Transation',
-              ),
-              onPressed: () {
-                if (_amountController.text == '') {
-                  return;
-                }
+              RaisedButton(
+                color: Theme.of(context).primaryColor,
+                textColor: Theme.of(context).textTheme.button.color,
+                child: Text(
+                  'Add Transation',
+                ),
+                onPressed: () {
+                  if (_amountController.text == '') {
+                    return;
+                  }
 
-                final enteredTitle = _titleController.text;
-                final enteredAmount = double.parse(_amountController.text);
+                  final enteredTitle = _titleController.text;
+                  final enteredAmount = double.parse(_amountController.text);
 
-                if (enteredTitle.isEmpty ||
-                    enteredAmount <= 0 ||
-                    _datePicked == null) {
-                  return;
-                }
+                  if (enteredTitle.isEmpty ||
+                      enteredAmount <= 0 ||
+                      _datePicked == null) {
+                    return;
+                  }
 
-                widget.addNewTx(
-                    title: enteredTitle,
-                    amount: enteredAmount,
-                    date: _datePicked);
+                  widget.addNewTx(
+                      title: enteredTitle,
+                      amount: enteredAmount,
+                      date: _datePicked);
 
-                Navigator.of(context).pop();
-              },
-            )
-          ],
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          ),
         ),
       ),
     );

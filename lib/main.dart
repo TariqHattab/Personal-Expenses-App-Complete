@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// import 'package:flutter/services.dart';
 
 import 'widgets/chart.dart';
 import './widgets/transactions_list.dart';
@@ -6,6 +7,12 @@ import './widgets/add_transaction.dart';
 import 'models/transaction.dart';
 
 void main() {
+//To disable the landscape mode uncomment the following lines
+
+  // WidgetsFlutterBinding.ensureInitialized();
+  // SystemChrome.setPreferredOrientations(
+  //     [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
+
   runApp(MyApp());
 }
 
@@ -90,32 +97,77 @@ class _MyHomePageState extends State<MyHomePage> {
         });
   }
 
+  var _showChart = false;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: false,
-        title: Text(widget.title),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () => _showAddNewTransaction(context),
-          )
-        ],
+    var mediaQuery = MediaQuery.of(context);
+    var isLandscape = mediaQuery.orientation == Orientation.landscape;
+
+    var appbar = AppBar(
+      centerTitle: false,
+      title: Text(widget.title),
+      actions: [
+        IconButton(
+          icon: Icon(Icons.add),
+          onPressed: () => _showAddNewTransaction(context),
+        )
+      ],
+    );
+    var txListWidget = Container(
+      height: (mediaQuery.size.height -
+              appbar.preferredSize.height -
+              mediaQuery.padding.top) *
+          .7,
+      child: TransactionsList(
+        transactions: transactions,
+        deleteTx: deleteTransaction,
       ),
+    );
+
+    return Scaffold(
+      appBar: appbar,
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 10),
-            Chart(
-              recentTransactions: _recentTaransactions,
-            ),
-            SizedBox(height: 10),
-            TransactionsList(
-              transactions: transactions,
-              deleteTx: deleteTransaction,
-            ),
-            SizedBox(height: 10),
+            if (isLandscape)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Show Chart'),
+                  Switch(
+                    value: _showChart,
+                    onChanged: (val) {
+                      setState(() {
+                        _showChart = val;
+                      });
+                    },
+                  ),
+                ],
+              ),
+            if (isLandscape)
+              _showChart
+                  ? Container(
+                      height: (mediaQuery.size.height -
+                              appbar.preferredSize.height -
+                              mediaQuery.padding.top) *
+                          .7,
+                      child: Chart(
+                        recentTransactions: _recentTaransactions,
+                      ),
+                    )
+                  : txListWidget,
+            if (!isLandscape)
+              Container(
+                height: (mediaQuery.size.height -
+                        appbar.preferredSize.height -
+                        mediaQuery.padding.top) *
+                    .3,
+                child: Chart(
+                  recentTransactions: _recentTaransactions,
+                ),
+              ),
+            if (!isLandscape) txListWidget,
           ],
         ),
       ),

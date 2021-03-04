@@ -21,13 +21,22 @@ class TransactionWidget extends StatelessWidget {
             child: FittedBox(child: Text(tx.amount.toStringAsFixed(0))),
           ),
         ),
-        trailing: IconButton(
-          icon: Icon(Icons.delete),
-          color: Theme.of(context).errorColor,
-          onPressed: () {
-            deleteTx(tx);
-          },
-        ),
+        trailing: MediaQuery.of(context).size.width > 460
+            ? FlatButton.icon(
+                label: Text('Delete'),
+                textColor: Theme.of(context).errorColor,
+                icon: Icon(Icons.delete),
+                onPressed: () {
+                  deleteTx(tx);
+                },
+              )
+            : IconButton(
+                color: Theme.of(context).errorColor,
+                icon: Icon(Icons.delete),
+                onPressed: () {
+                  deleteTx(tx);
+                },
+              ),
       ),
     )
 
