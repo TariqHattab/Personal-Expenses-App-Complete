@@ -11,8 +11,14 @@ class ChartBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text('\$$amount'),
+        Container(
+            height: 20,
+            child: FittedBox(child: Text('\$${amount.toStringAsFixed(0)}'))),
+        SizedBox(
+          height: 10,
+        ),
         Container(
           height: 50,
           width: 10,
@@ -30,7 +36,7 @@ class ChartBar extends StatelessWidget {
               color: Colors.grey.shade300,
               borderRadius: BorderRadius.circular(10)),
         ),
-        Text(day)
+        Text(day[0])
       ],
     )
 

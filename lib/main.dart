@@ -23,7 +23,8 @@ class MyApp extends StatelessWidget {
               headline6: TextStyle(
                   fontFamily: 'OpenSans',
                   fontSize: 18,
-                  fontWeight: FontWeight.bold)),
+                  fontWeight: FontWeight.bold),
+              button: TextStyle(color: Colors.white)),
           appBarTheme: AppBarTheme(
               textTheme: ThemeData.light().textTheme.copyWith(
                   headline6: TextStyle(
@@ -61,15 +62,18 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  _createNewTaransaction({
-    String title,
-    double amount,
-  }) {
+  void deleteTransaction(Transaction tx) {
+    setState(() {
+      transactions.remove(tx);
+    });
+  }
+
+  _createNewTaransaction({String title, double amount, DateTime date}) {
     var newTx = Transaction(
         id: DateTime.now().toString(),
         amount: amount,
         title: title,
-        date: DateTime.now());
+        date: date);
 
     setState(() {
       transactions.add(newTx);
@@ -103,16 +107,13 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           children: [
             SizedBox(height: 10),
-            Container(
-              height: 150,
-              width: double.infinity,
-              child: Chart(
-                recentTransactions: _recentTaransactions,
-              ),
+            Chart(
+              recentTransactions: _recentTaransactions,
             ),
             SizedBox(height: 10),
             TransactionsList(
               transactions: transactions,
+              deleteTx: deleteTransaction,
             ),
             SizedBox(height: 10),
           ],

@@ -28,7 +28,8 @@ class Chart extends StatelessWidget {
         'day': DateFormat.E().format(weekDay),
         'amount': totalSum,
       };
-    });
+    }).reversed.toList(); //called reversed to reverse the list so it
+    //  goes from left to right instead from right to left
   }
 
   double get maxSpending {
@@ -40,13 +41,24 @@ class Chart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-        elevation: 3,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: groubedRecentTransactions.map((data) {
-            return ChartBar(
-                day: data['day'], amount: data['amount'], spendPercOfTrans: .5);
-          }).toList(),
+        elevation: 6,
+        margin: EdgeInsets.all(20),
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: groubedRecentTransactions.map((data) {
+              return Flexible(
+                fit: FlexFit.tight,
+                child: ChartBar(
+                    day: data['day'],
+                    amount: data['amount'],
+                    spendPercOfTrans: recentTransactions.isEmpty
+                        ? 0
+                        : (data['amount'] / maxSpending)),
+              );
+            }).toList(),
+          ),
         ));
   }
 }
