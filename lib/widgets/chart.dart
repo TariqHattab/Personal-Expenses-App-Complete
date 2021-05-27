@@ -10,10 +10,12 @@ class Chart extends StatelessWidget {
   const Chart({Key key, this.recentTransactions}) : super(key: key);
 
   List<Map<String, dynamic>> get groubedRecentTransactions {
+    // the chart will display the percentage only for the last seven days
     return List.generate(7, (index) {
       final weekDay = DateTime.now().subtract(Duration(days: index));
       double totalSum = 0;
 
+      // calculate all transactions in a weekDay
       for (var i = 0; i < recentTransactions.length; i++) {
         if (recentTransactions[i].date.day == weekDay.day &&
             recentTransactions[i].date.month == weekDay.month &&
@@ -22,14 +24,12 @@ class Chart extends StatelessWidget {
         }
       }
 
-      print(DateFormat.E().format(weekDay)[0]);
-      print(totalSum);
       return {
         'day': DateFormat.E().format(weekDay),
         'amount': totalSum,
       };
     }).reversed.toList(); //called reversed to reverse the list so it
-    //  goes from left to right instead from right to left
+    //                      goes from left to right instead from right to left
   }
 
   double get maxSpending {

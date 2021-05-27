@@ -22,6 +22,7 @@ class TransactionWidget extends StatelessWidget {
           ),
         ),
         trailing: MediaQuery.of(context).size.width > 460
+            // ignore: deprecated_member_use
             ? FlatButton.icon(
                 label: Text('Delete'),
                 textColor: Theme.of(context).errorColor,
@@ -38,44 +39,6 @@ class TransactionWidget extends StatelessWidget {
                 },
               ),
       ),
-    )
-
-        //  Card(
-        //   elevation: 3,
-        //   child: Padding(
-        //     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        //     child: Row(
-        //       children: [
-        //         Container(
-        //           padding: EdgeInsets.all(10),
-        //           decoration: BoxDecoration(
-        //               borderRadius: BorderRadius.circular(10),
-        //               border: Border.all(
-        //                   color: Theme.of(context).primaryColor, width: 3)),
-        //           child: Text(
-        //             '\$${tx.amount.toString()}',
-        //             style: TextStyle(
-        //                 fontSize: 16, color: Theme.of(context).primaryColor),
-        //           ),
-        //         ),
-        //         Padding(
-        //           padding: EdgeInsets.only(left: 10),
-        //           child: Column(
-        //             crossAxisAlignment: CrossAxisAlignment.start,
-        //             children: [
-        //               Text(tx.title, style: Theme.of(context).textTheme.headline6),
-        //               Container(
-        //                   child: Text(
-        //                 DateFormat('yyyy-MM-dd').format(tx.date),
-        //                 style: TextStyle(color: Colors.grey),
-        //               ))
-        //             ],
-        //           ),
-        //         )
-        //       ],
-        //     ),
-        //   ),
-        // )
-        ;
+    );
   }
 }

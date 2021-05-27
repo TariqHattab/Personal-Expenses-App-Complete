@@ -48,14 +48,6 @@ class ChartBar extends StatelessWidget {
           ],
         );
       },
-    )
-
-        // Container(
-        //   height: 30,
-        //   width: 10,
-        //   decoration: BoxDecoration(
-        //       color: Colors.purple, borderRadius: BorderRadius.circular(10)),
-        // ),
-        ;
+    );
   }
 }

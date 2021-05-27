@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
-import '../models/transaction.dart';
 
 class AddTransaction extends StatefulWidget {
   AddTransaction({
@@ -74,6 +73,7 @@ class _AddTransactionState extends State<AddTransaction> {
                           ? Text('No Date Choosen')
                           : Text(
                               'Picked Date:${DateFormat.yMd().format(_datePicked)}'),
+                      // ignore: deprecated_member_use
                       FlatButton(
                         child: Text(
                           'Choose Date',
@@ -88,6 +88,7 @@ class _AddTransactionState extends State<AddTransaction> {
                   ),
                 ),
               ),
+              // ignore: deprecated_member_use
               RaisedButton(
                 color: Theme.of(context).primaryColor,
                 textColor: Theme.of(context).textTheme.button.color,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart';
 
 import 'widgets/chart.dart';
 import './widgets/transactions_list.dart';
@@ -20,6 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'flutter spendings',
       theme: ThemeData(
           primarySwatch: Colors.purple,
@@ -52,18 +52,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> transactions = [
-    // Transaction(
-    //     id: '1',
-    //     title: 'shoes',
-    //     amount: 2,
-    //     date: DateTime.now().subtract(Duration(hours: 1))),
-    // Transaction(id: '2', title: 'office', amount: 12, date: DateTime.now()),
-  ];
+  final List<Transaction> transactions = [];
 
+  //group the last seven days transactions
   get _recentTaransactions {
-    //used the where function in the list class to excute a condition
-    //on each element in a list and include it only if its true
     return transactions.where((tx) {
       return tx.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
     }).toList();
@@ -130,43 +122,12 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            if (isLandscape)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('Show Chart'),
-                  Switch(
-                    value: _showChart,
-                    onChanged: (val) {
-                      setState(() {
-                        _showChart = val;
-                      });
-                    },
-                  ),
-                ],
-              ),
+            if (isLandscape) buildSwitchOption(),
             if (isLandscape)
               _showChart
-                  ? Container(
-                      height: (mediaQuery.size.height -
-                              appbar.preferredSize.height -
-                              mediaQuery.padding.top) *
-                          .7,
-                      child: Chart(
-                        recentTransactions: _recentTaransactions,
-                      ),
-                    )
+                  ? buildLandscapeChart(mediaQuery, appbar)
                   : txListWidget,
-            if (!isLandscape)
-              Container(
-                height: (mediaQuery.size.height -
-                        appbar.preferredSize.height -
-                        mediaQuery.padding.top) *
-                    .3,
-                child: Chart(
-                  recentTransactions: _recentTaransactions,
-                ),
-              ),
+            if (!isLandscape) buildPortraitChart(mediaQuery, appbar),
             if (!isLandscape) txListWidget,
           ],
         ),
@@ -176,6 +137,47 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: () => _showAddNewTransaction(context),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
+  }
+
+  Container buildPortraitChart(MediaQueryData mediaQuery, AppBar appbar) {
+    return Container(
+      height: (mediaQuery.size.height -
+              appbar.preferredSize.height -
+              mediaQuery.padding.top) *
+          .3,
+      child: Chart(
+        recentTransactions: _recentTaransactions,
+      ),
+    );
+  }
+
+  Container buildLandscapeChart(MediaQueryData mediaQuery, AppBar appbar) {
+    return Container(
+      height: (mediaQuery.size.height -
+              appbar.preferredSize.height -
+              mediaQuery.padding.top) *
+          .7,
+      child: Chart(
+        recentTransactions: _recentTaransactions,
+      ),
+    );
+  }
+
+  Row buildSwitchOption() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text('Show Chart'),
+        Switch(
+          value: _showChart,
+          onChanged: (val) {
+            setState(() {
+              _showChart = val;
+            });
+          },
+        ),
+      ],
     );
   }
 }
