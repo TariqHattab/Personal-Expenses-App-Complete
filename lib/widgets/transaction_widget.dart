@@ -13,14 +13,14 @@ class TransactionWidget extends StatelessWidget {
       elevation: 5,
       margin: EdgeInsets.symmetric(horizontal: 5, vertical: 8),
       child: ListTile(
-        title: Text(tx.title),
-        subtitle: Text(DateFormat('yyyy-MM-dd').format(tx.date)),
         leading: CircleAvatar(
           child: Padding(
             padding: const EdgeInsets.all(3.0),
-            child: FittedBox(child: Text(tx.amount.toStringAsFixed(0))),
+            child: FittedBox(child: Text('\$${tx.amount.toStringAsFixed(0)}')),
           ),
         ),
+        title: Text(tx.title),
+        subtitle: Text(DateFormat('yyyy-MM-dd').format(tx.date)),
         trailing: MediaQuery.of(context).size.width > 460
             // ignore: deprecated_member_use
             ? FlatButton.icon(
